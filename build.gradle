@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "${mod_version}.${build_number}"
+group= "ru.pearx.drkey"
+archivesBaseName = "DrKey-${mc_version}"
+
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+    version = mc_version + "-" + forge_version
+    runDir = "run"
+    mappings = mappings_version
+    replace("@VERSION@", version)
+    replace("@MCVERSION@", mc_version)
+    replace("acceptedMinecraftVersions = \"\"", "acceptedMinecraftVersions = \"" + accepted_mc_versions + "\"")
+    replaceIn("DrKey.java")
+}
+
+configurations {
+    incljar
+}
+
+dependencies {
+    compile project("PearXLibMC")
+}
+
+/*processResources {
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+jar {
+    manifest {
+        attributes 'FMLAT': 'drkey_at.cfg'
+    }
+}*/
